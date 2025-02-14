@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Valentine's Request</title>
+    <style>
+        body {
+            font-family: 'Indie Flower', cursive;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background: linear-gradient(135deg, #ff9a9e, #fad0c4);
+            flex-direction: column;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .heart {
+            position: absolute;
+            color: rgba(255, 255, 255, 0.5);
+            font-size: 100px;
+            animation: float 5s ease-in-out infinite;
+        }
+
+        .heart:nth-child(1) {
+            top: 10%;
+            left: 20%;
+            animation-delay: 0s;
+        }
+
+        .heart:nth-child(2) {
+            top: 30%;
+            left: 70%;
+            animation-delay: 1s;
+        }
+
+        .heart:nth-child(3) {
+            top: 60%;
+            left: 40%;
+            animation-delay: 2s;
+        }
+
+        @keyframes float {
+            0%, 100% {
+                transform: translateY(0);
+            }
+            50% {
+                transform: translateY(-20px);
+            }
+        }
+
+        .message {
+            font-size: 28px;
+            font-weight: bold;
+            color: #fff;
+            text-align: center;
+            margin-bottom: 40px;
+            animation: fadeIn 1s ease-in-out;
+        }
+
+        .button-container {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+        }
+
+        .button {
+            padding: 12px 25px;
+            font-size: 18px;
+            border: 2px solid black;
+            cursor: pointer;
+            border-radius: 10px;
+            transition: all 0.3s;
+        }
+
+        .yes-button {
+            background-color: #66cc66;
+            color: white;
+        }
+
+        .no-button {
+            background-color: #ff6666;
+            color: white;
+            transition: all 0.5s;
+        }
+
+        .yes-button:hover, .no-button:hover {
+            transform: scale(1.1);
+            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        @keyframes fadeIn {
+            0% { opacity: 0; }
+            100% { opacity: 1; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="heart">❤️</div>
+    <div class="heart">❤️</div>
+    <div class="heart">❤️</div>
+
+    <div class="message" id="message">Will you be my valentine?</div>
+
+    <div class="button-container">
+        <button class="button yes-button" id="yes-button">Yes</button>
+        <button class="button no-button" id="no-button">No</button>
+    </div>
+
+    <script>
+        const yesButton = document.getElementById('yes-button');
+        const noButton = document.getElementById('no-button');
+        const messageDiv = document.getElementById('message');
+        const noTexts = [
+            "Bakit ayaw mo?",
+            "Ayaw mo talaga?",
+            "Lah sad nako dito",
+            "Sure kana dyan?",
+            "sure na sure?",
+            "sure na really?",
+            "sure na talaga?",
+            "ah ganon"
+        ];
+
+        let currentIndex = 0;  // Keep track of which message to display
+
+        yesButton.addEventListener('click', () => {
+            messageDiv.textContent = "Yay! I just wanted to say thank you, guys, for being my friends and for always being there for me. I really appreciate all the kindness, support, and fun moments we share. You all mean so much to me! I love you all! Happy Valentine’s Day!"
+            noButton.style.display = "none";
+            });
+
+        noButton.addEventListener('click', () => {
+            // Get the position of the Yes button
+            const yesButtonRect = yesButton.getBoundingClientRect();
+
+            // Get the window size
+            const windowWidth = window.innerWidth;
+            const windowHeight = window.innerHeight;
+
+            // Get the size of the No button
+            const buttonWidth = noButton.offsetWidth;
+            const buttonHeight = noButton.offsetHeight;
+
+            // Calculate a random position for the No button, away from the Yes button
+            let randomX = Math.random() * (windowWidth - buttonWidth);
+            let randomY = Math.random() * (windowHeight - buttonHeight);
+
+            // Ensure the No button is not near the Yes button
+            // Move the No button away from the Yes button
+            if (randomX > yesButtonRect.left && randomX < yesButtonRect.right) {
+                randomX = randomX + 100; // Move it far enough away
+            }
+
+            if (randomY > yesButtonRect.top && randomY < yesButtonRect.bottom) {
+                randomY = randomY + 100; // Move it far enough away
+            }
+
+            // Apply the new position to the No button
+            noButton.style.position = 'absolute';
+            noButton.style.left = randomX + 'px';
+            noButton.style.top = randomY + 'px';
+
+            // Change the message as the No button is clicked
+            if (currentIndex < noTexts.length) {
+                messageDiv.textContent = noTexts[currentIndex];
+                currentIndex++;
+            } else {
+                messageDiv.textContent = "";
+                noButton.style.display = "none";
+            }
+        });
+    </script>
+
+</body>
+</html>
